@@ -1,54 +1,45 @@
-const SECTION = document.querySelectorAll('.section');
-
-const Fullpage = new fullpage('#content', {
-    scrollOverflow: false, // line-height : 1 에서 스크롤 생기는 거 없애줘...
-    //css3: false,
-    paddingTop: '101px',
-    afterLoad: function (o, d, t) {
-        console.log(d.index);
-        SECTION.forEach(it => it.classList.remove('on'));
-        SECTION[d.index].classList.add('on');
-    }
-});
-
 const MAIN_VISUAL_SLIDE = new Swiper('.main_visual_slide', {
     loop: true,
-    slideActiveClass: 'on',
-    autoplay: {
-        delay: 4000,
-    },
-    effect: 'fade',
-    speed: 2000,
-    fadeEffect: {
-        crossFade: true
-    },
+    parallax: true,
+    speed: 1000,
 
-    on: {
-        init: () => {
-            document.querySelector('.mainVisual .b_inner .num').classList.add('on');
-        },
-        slideChangeTransitionEnd: () => {
-            document.querySelector('.mainVisual .b_inner .num').classList.add('on');
-        },
-        slideChangeTransitionStart: () => {
-            document.querySelector('.mainVisual .b_inner .num').classList.remove('on');
-        },
-    }
+    slideActiveClass: 'on',
 });
 
-const MAIN_CONTENT_SLIDE = new Swiper('.main_content_slide', {
+const MAIN_VS_LEFT_BUTTON = document.querySelector('.MainVisual .main_slide_arrows .left');
+MAIN_VS_LEFT_BUTTON.addEventListener('click', () => {
+    MAIN_VISUAL_SLIDE.slidePrev();
+});
+const MAIN_VS_RIGHT_BUTTON = document.querySelector('.MainVisual .main_slide_arrows .right');
+MAIN_VS_RIGHT_BUTTON.addEventListener('click', () => {
+    MAIN_VISUAL_SLIDE.slideNext();
+});
+
+const MAIN_NOTICE_SLIDE = new Swiper('.main_notice_slide', {
     loop: true,
-    slideActiveClass: 'on',
-    slidesPerView: 4,
+    slidesPerView: 2.5,
     spaceBetween: 30,
 });
 
-const MAIN_CONTENT_SLIDE_BUTTON = document.querySelectorAll('.main_content_slide button');
-
-
-MAIN_CONTENT_SLIDE_BUTTON[0].addEventListener('click', () => {
-    MAIN_CONTENT_SLIDE.slidePrev();
+const MAIN_NS_LEFT_BUTTON = document.querySelector('.MainCustomer .main_customer_arrows .left');
+MAIN_NS_LEFT_BUTTON.addEventListener('click', () => {
+    MAIN_NOTICE_SLIDE.slidePrev();
 });
-MAIN_CONTENT_SLIDE_BUTTON[1].addEventListener('click', () => {
-    MAIN_CONTENT_SLIDE.slideNext();
+const MAIN_NS_RIGHT_BUTTON = document.querySelector('.MainCustomer .main_customer_arrows .right');
+MAIN_NS_RIGHT_BUTTON.addEventListener('click', () => {
+    MAIN_NOTICE_SLIDE.slideNext();
 });
+
+window.addEventListener('scroll', () => {
+    let SCT = window.scrollY;
+    // if (SCT > 0) {
+    //     document.querySelector('#Header').classList.add('on');
+    // } else {
+    //     document.querySelector('#Header').classList.remove('on');
+    // }
+    SCT > 0
+        ? document.querySelector('#Header').classList.add('on')
+        : document.querySelector('#Header').classList.remove('on');
+});
+
+AOS.init();
